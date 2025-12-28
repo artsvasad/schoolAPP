@@ -12,8 +12,10 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        sparse: true,
+        trim: true,
+        lowercase: true
+
     },
     password: {
         type: String,
@@ -22,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['super', 'admin', 'teacher', 'student',  'desk'],
+        enum: ['super', 'admin', 'teacher', 'student', 'desk'],
         default: 'student'
     },
     status: {

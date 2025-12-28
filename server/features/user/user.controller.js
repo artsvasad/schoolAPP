@@ -35,8 +35,13 @@ export const createUser = async (req, res) => {
             return res.status(403).json({ message: 'Desk users can only create students.' })
         }
         // Authorization checks end here
+        // Duplicate check
+        const checkQuery = [{mobile}]
+        if (email) {
+            checkQuery.push({email})
+        }
 
-        const existingUser = await User.findOne({ $or: [{ email }, { mobile }] })
+        const existingUser = await User.findOne({ $or: checkQuery })
         if (existingUser) {
             return res.status(400).json({ message: 'User with this email or mobile already exists' })
 
@@ -165,8 +170,11 @@ export const testUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
     try {
-        const { email, password } = req.body
-        const user = await User.findOne({ email })
+        const { identifier, password } = req.body
+        const user = await User.findOne({$or:[
+            { email: identifier },
+            { mobile: identifier }
+        ]})
         if (!user) {
             return res.status(404).json({ message: 'User not found' })
         }
