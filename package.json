@@ -1,0 +1,28 @@
+{
+  "name": "schoolapp",
+  "version": "1.0.0",
+  "description": "Feature by feature implementations. \r First itteration is user creation.",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
+    "server": "npm --prefix ../server run dev",
+    "client": "npm --prefix ../client run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artsvasad/schoolAPP.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/artsvasad/schoolAPP/issues"
+  },
+  "homepage": "https://github.com/artsvasad/schoolAPP#readme",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
