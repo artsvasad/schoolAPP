@@ -7,19 +7,19 @@ const CreateStudent = () => {
         name: '',
         mobile: '',
         email: '',
-        
+
         // Student Profile Info (FIXED NAMING TO MATCH BACKEND)
         fatherName: '',   // Was fathersName
         motherName: '',   // Was mothersName
         dateOfBirth: '',  // Was dob
-        classGrade: '', 
+        classGrade: '',
         version: 'Bangla',
-        group: 'N/A', 
-        residentialStatus: 'Non-Residential' 
+        group: 'N/A',
+        residentialStatus: 'Non-Residential'
     });
 
     const [message, setMessage] = useState('');
-    const [statusType, setStatusType] = useState(''); 
+    const [statusType, setStatusType] = useState('');
 
     const handleChange = (e) => {
         setFormData({
@@ -43,12 +43,12 @@ const CreateStudent = () => {
 
             setMessage(`Success! Student ${data.user.name} created. (Password: ${data.user.mobile})`);
             setStatusType('success');
-            
+
             // Reset form
             setFormData({
                 name: '', mobile: '', email: '',
-                fatherName: '', motherName: '', dateOfBirth: '', 
-                classGrade: '', version: 'Bangla', group: 'N/A', 
+                fatherName: '', motherName: '', dateOfBirth: '',
+                classGrade: '', version: 'Bangla', group: 'N/A',
                 residentialStatus: 'Non-Residential'
             });
 
@@ -60,12 +60,13 @@ const CreateStudent = () => {
     };
 
     return (
-        <div className="create-user">
+        <div className="create-user">    <Header />
+            <NavBar />
             <h2>Register New Student</h2>
             {message && <p className={`message ${statusType}`}>{message}</p>}
-            
+
             <form onSubmit={handleSubmit} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                
+
                 {/* --- Left Column: Basic User Info --- */}
                 <div className="column">
                     <h3>Basic Information</h3>
@@ -101,7 +102,7 @@ const CreateStudent = () => {
                         {/* FIXED NAME */}
                         <input type="date" name="dateOfBirth" value={formData.dateOfBirth} onChange={handleChange} required />
                     </div>
-                    
+
                     <div className="form-group">
                         <label>Class *</label>
                         <select name="classGrade" value={formData.classGrade} onChange={handleChange} required>
@@ -154,7 +155,7 @@ const CreateStudent = () => {
 
                 <button type="submit" style={{ gridColumn: 'span 2', marginTop: '10px' }}>Create Student Profile</button>
             </form>
-            
+
             <style jsx>{`
                 .create-user { max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
                 .form-group { margin-bottom: 15px; display: flex; flex-direction: column; }
