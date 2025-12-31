@@ -7,25 +7,9 @@ const { SALT_ROUNDS } = process.env;
 export const createStudent = async (req, res) => {
     try {
         const {
-            // User Data
             name,
             mobile,
             email,
-            nameBN,
-            // Student Profile Data
-            fatherName,
-            motherName,
-            fatherNameBN,
-            motherNameBN,
-            dateOfBirth,
-            birthCertificateNo,
-            fatherNID,
-            motherNID,
-            classGrade,
-            version,
-            group,
-            residentialStatus,
-            isUsingTransport,
         } = req.body;
 
         // 1. Check if user already exists
@@ -58,21 +42,9 @@ export const createStudent = async (req, res) => {
 
         // 4. Create the Student Profile Document
         const newProfile = new StudentProfile({
-            userId: savedUser._id,
-            nameBN,
-            fatherName,
-            motherName,
-            fatherNameBN,
-            motherNameBN,
-            dateOfBirth,
-            birthCertificateNo,
-            fatherNID,
-            motherNID,
-            classGrade,
-            version,
-            group,
-            residentialStatus,
-            isUsingTransport,
+            ...req.body,
+            userId: savedUser._id
+
         });
 
         await newProfile.save();
@@ -84,8 +56,9 @@ export const createStudent = async (req, res) => {
         });
     } catch (error) {
         console.error("Error creating student:", error);
-        // Optional: If profile creation fails, you might want to delete the user created in step 3
-        // await User.findByIdAndDelete(savedUser._id);
+        if(savedUser?._id){
+            await User.findByIdAndDelete(savedUser._id);
+        }
         res
             .status(500)
             .json({ message: "Error creating student", error: error.message });
