@@ -61,8 +61,20 @@ const studentSchema = new mongoose.Schema({
     },
     residentialStatus: {
         type: String,
-        enum: ['Residential', 'Non-Residential', 'Day-Care']
-    }
+        enum: ['Residential', 'Non-Residential', 'Day-Care', 'Night-Care', 'N/A']
+    },
+    religion: {
+        type: String,
+        enum: ['Islam', 'Hinduism', 'Christianity', 'Buddhism', 'Other']
+    },
+    gender: {
+        type: String,
+        enum: ['Male', 'Female', 'Other']
+    },
+    isUsingTransport: {
+        type: Boolean,
+        default: false
+    },
 
 
 }, { timestamps: true })

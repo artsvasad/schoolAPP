@@ -1,6 +1,6 @@
-import User from '../user/user.model.js';
-import StudentProfile from './student.model.js';
-import bcryptjs from 'bcryptjs';
+import User from "../user/user.model.js";
+import StudentProfile from "./student.model.js";
+import bcryptjs from "bcryptjs";
 
 const { SALT_ROUNDS } = process.env;
 
@@ -8,10 +8,24 @@ export const createStudent = async (req, res) => {
     try {
         const {
             // User Data
-            name, mobile, email, nameBN,
+            name,
+            mobile,
+            email,
+            nameBN,
             // Student Profile Data
-            fatherName, motherName, fatherNameBN, motherNameBN, dateOfBirth, birthCertificateNo,
-           fatherNID, motherNID, classGrade, version, group, residentialStatus
+            fatherName,
+            motherName,
+            fatherNameBN,
+            motherNameBN,
+            dateOfBirth,
+            birthCertificateNo,
+            fatherNID,
+            motherNID,
+            classGrade,
+            version,
+            group,
+            residentialStatus,
+            isUsingTransport,
         } = req.body;
 
         // 1. Check if user already exists
@@ -20,7 +34,9 @@ export const createStudent = async (req, res) => {
 
         const existingUser = await User.findOne({ $or: checkQuery });
         if (existingUser) {
-            return res.status(400).json({ message: 'User with this mobile or email already exists' });
+            return res
+                .status(400)
+                .json({ message: "User with this mobile or email already exists" });
         }
 
         // 2. Prepare Password (Default to Mobile Number if not provided)
@@ -34,8 +50,8 @@ export const createStudent = async (req, res) => {
             mobile,
             email: email || undefined, // undefined lets the sparse index ignore it
             password: hashedPassword,
-            role: 'student',
-            status: 'active'
+            role: "student",
+            status: "active",
         });
 
         const savedUser = await newUser.save();
@@ -44,7 +60,10 @@ export const createStudent = async (req, res) => {
         const newProfile = new StudentProfile({
             userId: savedUser._id,
             nameBN,
-            fatherName, motherName, fatherNameBN, motherNameBN,
+            fatherName,
+            motherName,
+            fatherNameBN,
+            motherNameBN,
             dateOfBirth,
             birthCertificateNo,
             fatherNID,
@@ -52,21 +71,23 @@ export const createStudent = async (req, res) => {
             classGrade,
             version,
             group,
-            residentialStatus
+            residentialStatus,
+            isUsingTransport,
         });
 
         await newProfile.save();
 
         res.status(201).json({
-            message: 'Student and Profile created successfully',
+            message: "Student and Profile created successfully",
             user: savedUser,
-            profile: newProfile
+            profile: newProfile,
         });
-
     } catch (error) {
         console.error("Error creating student:", error);
         // Optional: If profile creation fails, you might want to delete the user created in step 3
-        // await User.findByIdAndDelete(savedUser._id); 
-        res.status(500).json({ message: 'Error creating student', error: error.message });
+        // await User.findByIdAndDelete(savedUser._id);
+        res
+            .status(500)
+            .json({ message: "Error creating student", error: error.message });
     }
 };
