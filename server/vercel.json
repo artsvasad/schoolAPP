@@ -5,5 +5,11 @@
       "source": "/(.*)",
       "destination": "/index.js"
     }
+  ],
+  "crons": [
+    {
+      "path" :  "/api/ping",
+      "schedule": "*/10 * * * *"
+    }
   ]
 }
