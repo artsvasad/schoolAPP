@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import NavBar from "../components/NavBar";
+import './CreateUser.scss'
 
 import { api } from '../utils/api.js';
 
@@ -44,10 +46,11 @@ const CreateUser = () => {
     }
     return (
         <div className="create-user">
+            <NavBar/>
             <h2>Create User</h2>
             {message && <p>{message}</p>}
             <form onSubmit={handleSubmit}>
-                <div className="name">
+                <div className="form-group">
                     <label htmlFor="name">Name</label>
                     <input
                         type="text"
@@ -59,7 +62,7 @@ const CreateUser = () => {
                     />
 
                 </div>
-                <div className="mobile">
+                <div className="form-group">
                     <label htmlFor="mobile">Mobile No.</label>
                     <input
                         type="text"
@@ -70,7 +73,7 @@ const CreateUser = () => {
                         required
                     />
                 </div>
-                <div className="email">
+                <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
                         type="email"
@@ -81,7 +84,7 @@ const CreateUser = () => {
                         required
                     />
                 </div>
-                <div className="password">
+                <div className="form-group">
                     <label htmlFor="password">Password</label>
                     <input
                         type="password"
@@ -92,7 +95,7 @@ const CreateUser = () => {
                         required
                     />
                 </div>
-                <div className="role">
+                <div className="form-group">
                     <label htmlFor="role">Role</label>
                     <select
                         id="role"
@@ -101,13 +104,12 @@ const CreateUser = () => {
                         onChange={handleChange}
                         required
                     >
-                        <option value="student">Student</option>
-                        <option value="teacher">Teacher</option>
+                         <option value="teacher">Teacher</option>
                         <option value="admin">Admin</option>
                         <option value="desk">Desk</option>
                     </select>
                 </div>
-                <div className="status">
+                <div className="form-group">
                     <label htmlFor="status">Status</label>
                     <select
                         id="status"

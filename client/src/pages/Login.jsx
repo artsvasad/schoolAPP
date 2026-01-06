@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {api} from '../utils/api.js'
 import NavBar from "../components/NavBar";
+import './Login.scss'
 const Login = () => {
     const [formData, setFormData] = useState({
         identifier: "",
@@ -40,8 +41,8 @@ const Login = () => {
             <NavBar/>
             <h2>Login</h2>
             {status && <p>{status}</p>}
-            <form onSubmit={handleSubmit}>
-                <div>
+            <form onSubmit={handleSubmit} className="login-form">
+                <div className="form-group">
                     <label htmlFor="identifier">Email or Mobile No.</label>
                     <input
                         type="text"
@@ -51,7 +52,7 @@ const Login = () => {
                         onChange={handleChange} required
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label htmlFor="password">Password</label>
                     <input
                         type="password"
