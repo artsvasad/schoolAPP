@@ -8,7 +8,22 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-app.use(async (req, res, next) => {
+
+app.get('/api/ping', async (req, res) => {
+    dbConnection().catch(err => console.error("Warm-up DB Error:", err));
+    
+    res.status(200).json({
+        message: 'pong',
+        status: 'Server is warm',
+        time: new Date().toISOString()
+    })
+})
+
+app.get('/', (req, res) => {
+    res.send(' Hi from server.')
+})
+
+app.use('/api', async (req, res, next) => {
     try {
         await dbConnection()
         next()
@@ -19,15 +34,8 @@ app.use(async (req, res, next) => {
     }
 })
 
-app.get('/', (req, res) => {
-    res.send(' Hi from server.')
-})
-app.get('/api/ping', (req, res) => {
-    res.status(200).json({
-        message: 'pong',
-        time: new Date().toISOString()
-    })
-})
+
+
 app.use('/api', mainRoutes)
 
 if (process.env.NODE_ENV !== 'production') {
