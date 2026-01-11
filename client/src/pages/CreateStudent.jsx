@@ -68,12 +68,27 @@ const CreateStudent = ({ studentToEdit = null, onClose = null, onSuccess = null 
         setMessage("Processing...");
         setStatusType("info");
 
+        // --- FIX START: Sanitize Data ---
+        // Create a copy so we don't affect the form UI
+        const payload = { ...formData };
+
+        // If email is empty string, remove it entirely so backend sees it as undefined
+        if (!payload.email || payload.email.trim() === "") {
+            delete payload.email;
+        }
+
+        // If dateOfBirth is empty, remove it to prevent date parsing errors
+        if (!payload.dateOfBirth) {
+            delete payload.dateOfBirth;
+        }
+        // --- FIX END ---
+
         try {
             let response;
             if (studentToEdit) {
-                response = await api.put(`api/students/update/${studentToEdit._id}`, formData);
+                response = await api.put(`api/students/${studentToEdit._id}`, payload);
             } else {
-                response = await api.post("api/students/create", formData);
+                response = await api.post("api/students/create", payload);
             }
 
             const data = await response.json();

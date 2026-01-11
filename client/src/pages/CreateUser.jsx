@@ -25,8 +25,20 @@ const CreateUser = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setMessage('Creating user...')
+        
+        // --- FIX START: Sanitize Data ---
+        // Create a copy so we don't affect the form UI
+        const payload = { ...formData };
+
+        // If email is empty string, remove it entirely
+        if (!payload.email || payload.email.trim() === "") {
+            delete payload.email;
+        }
+        // --- FIX END ---
+
         try {
-            const response = await api.post('api/users', formData)
+            // Send payload, NOT formData
+            const response = await api.post('api/users', payload)
             const data = await response.json()
             if (!response.ok) {
                 throw new Error(data.message || 'User creation failed')
